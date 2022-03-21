@@ -1,4 +1,4 @@
-package com.example.SpringMVC;
+package com.example.SpringMVC.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,4 +11,5 @@ public class DefaultController {
         map.addAttribute("course","comps380f");
         return "index";
     }
+
 }

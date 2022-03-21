@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<b:beans xmlns="http://www.springframework.org/schema/security"
+         xmlns:b="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
-</beans>
+         xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd
+">
+    <b:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <b:property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
+        <b:property name="url" value="jdbc:derby://localhost:1527/course"/>
+        <b:property name="username" value="sergio"/>
+        <b:property name="password" value="sergio"/>
+    </b:bean>
+
+    <!--Spring Security-->
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query=
+                                       "SELECT username, password, true FOME users WHERE username=?"
+                               authorities-by-username-query="SELECT username, role FROM users"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <http auto-config="true">
+
+        <form-login login-page="/login"
+                    authentication-failure-url="/login?error"
+                    username-parameter="username"
+                    password-parameter="password" />
+        <remember-me
+                key="uniqueAndSecret"
+                token-validity-seconds="86400"
+                remember-me-parameter="remember-me"/>
+    </http>
+</b:beans>

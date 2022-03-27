@@ -27,10 +27,11 @@
 
     <http auto-config="true">
 
-        <form-login login-page="/login"
-                    authentication-failure-url="/login?error"
-                    username-parameter="username"
-                    password-parameter="password" />
+        <intercept-url pattern="/lecture/edit" access="hasRole('LECTURER')"/>
+        <intercept-url pattern="/lecture/add" access="hasRole('LECTURER')"/>
+        <intercept-url pattern="/lecture/delete" access="hasRole('LECTURER')"/>
+        <intercept-url pattern="/lecture/**" access="isAuthenticated()"/>
+
         <remember-me
                 key="uniqueAndSecret"
                 token-validity-seconds="86400"

@@ -1,6 +1,9 @@
 package com.example.SpringMVC.model;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -9,34 +12,27 @@ import java.util.List;
 @Table(name = "USER_INFO")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private Long userID;
-    @Column(name="username", length=50, nullable=false)
+    @Column(name="username",length=20, nullable=false, unique = true)
     private String username;
-    @Column(name="password", length=50, nullable=false)
+    @Column(name="password", length=20, nullable=false)
     private String password;
-    @Column(name="role", length=50, nullable=false)
+    @Column(name="user_role", length=20, nullable=false)
     private String role;
-    @Column(name="fullName", length=50, nullable=false)
+    @Column(name="fullName", length=20, nullable=false)
     private String fullName;
-    @Column(name="phone_number", length=50, nullable=false)
-    private String phoneNumber;
+    @Column(name="phone_number", length=8, nullable=false)
+    private int phoneNumber;
     @Column(name="address", length=50, nullable=false)
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Comment> comments;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<PollResult> pollResults;
 
-    public Long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Long userID) {
-        this.userID = userID;
-    }
 
     public String getUsername() {
         return username;
@@ -70,11 +66,11 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

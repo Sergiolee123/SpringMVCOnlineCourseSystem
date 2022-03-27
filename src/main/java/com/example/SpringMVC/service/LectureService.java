@@ -13,23 +13,22 @@ public class LectureService {
     private LectureRepository lectureRepository;
 
     @Autowired
-    public void setLectureDao(LectureRepository lectureRepository) {
+    public void setLectureRepository(LectureRepository lectureRepository) {
         this.lectureRepository = lectureRepository;
     }
 
-    @Transactional(rollbackFor = Throwable.class)
     public List<Lecture> findAllLectures(){
         return lectureRepository.findAll();
     }
 
-    @Transactional(rollbackFor = Throwable.class)
     public Lecture findLectureById(Long id){
         return lectureRepository.findById(id).orElse(null);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void saveLecture(Lecture lecture){
-        lectureRepository.save(lecture);
+    public Lecture saveLecture(Lecture lecture){
+        return lectureRepository.save(lecture);
     }
+
 
 }

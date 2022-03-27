@@ -20,17 +20,19 @@
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
-                                       "SELECT username, password, true FOME users WHERE username=?"
-                               authorities-by-username-query="SELECT username, role FROM users"/>
+                                       "SELECT username, password, true FOME USER_INFO
+                                       WHERE username=?"
+                               authorities-by-username-query=
+                                       "SELECT username, user_role FROM USER_INFO
+                                       WHERE username=?"/>
         </authentication-provider>
     </authentication-manager>
 
     <http auto-config="true">
 
-        <intercept-url pattern="/lecture/edit" access="hasRole('LECTURER')"/>
-        <intercept-url pattern="/lecture/add" access="hasRole('LECTURER')"/>
-        <intercept-url pattern="/lecture/delete" access="hasRole('LECTURER')"/>
-        <intercept-url pattern="/lecture/**" access="isAuthenticated()"/>
+        <!--<intercept-url pattern="/lecture/edit/*" access="hasRole('LECTURER')"/>-->
+        <!--<intercept-url pattern="/lecture/edit" access="hasRole('LECTURER')"/>-->
+<!--        <intercept-url pattern="/lecture/**" access="isAuthenticated()"/>-->
 
         <remember-me
                 key="uniqueAndSecret"

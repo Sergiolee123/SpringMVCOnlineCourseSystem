@@ -2,6 +2,7 @@ package com.example.SpringMVC.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,9 +18,19 @@ public class Poll implements Serializable {
     private String option3;
     @Column(name="option_d", length=50)
     private String option4;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "poll")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "poll")
     private List<PollResult> pollResults;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Long getPollID() {
         return pollID;

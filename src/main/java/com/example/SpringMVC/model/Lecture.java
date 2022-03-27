@@ -1,10 +1,12 @@
 package com.example.SpringMVC.model;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Lecture implements Serializable {
@@ -14,19 +16,21 @@ public class Lecture implements Serializable {
     @Column(name="lecture_title", length=50, nullable=false)
     private String lectureTitle;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lecture")
-    private List<Material> materialList;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "lecture")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Material> materials;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lecture")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "lecture")
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Comment> comments;
 
 
-    public List<Material> getMaterialList() {
-        return materialList;
+    public List<Material> getMaterials() {
+        return materials;
     }
 
-    public void setMaterialList(List<Material> materialList) {
-        this.materialList = materialList;
+    public void setMaterials(List<Material> materialList) {
+        this.materials = materialList;
     }
 
     public List<Comment> getComments() {

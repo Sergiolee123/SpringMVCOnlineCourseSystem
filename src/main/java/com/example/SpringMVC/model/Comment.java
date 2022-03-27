@@ -2,6 +2,7 @@ package com.example.SpringMVC.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Comment implements Serializable {
@@ -11,12 +12,14 @@ public class Comment implements Serializable {
     private Long commentID;
     @Column(name="content", length=50, nullable=false)
     private String content;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -26,6 +29,14 @@ public class Comment implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Lecture getLecture() {

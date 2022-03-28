@@ -35,13 +35,13 @@ public class DefaultController {
         return "index";
     }
 
-    @GetMapping("/registry")
-    public ModelAndView registryForm(){
+    @GetMapping("/createAccount")
+    public ModelAndView createAccountForm(){
         return new ModelAndView("registry","user", new User());
     }
 
-    @PostMapping("/registry")
-    public String addRegistry(@ModelAttribute("user") User user){
+    @PostMapping("/createAccount")
+    public String createAccount(@ModelAttribute("user") User user){
         user.setPassword("{noop}"+user.getPassword().trim());
         userService.addUser(user);
         return "redirect:/";

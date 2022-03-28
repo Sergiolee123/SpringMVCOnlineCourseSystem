@@ -14,15 +14,15 @@ public class User implements Serializable {
     @Id
     @Column(name="username",length=20, nullable=false, unique = true)
     private String username;
-    @Column(name="password", length=20, nullable=false)
+    @Column(name="password", length=25, nullable=false)
     private String password;
     @Column(name="user_role", length=20, nullable=false)
     private String role;
-    @Column(name="fullName", length=20, nullable=false)
+    @Column(name="fullName", length=50, nullable=false)
     private String fullName;
     @Column(name="phone_number", length=20, nullable=false)
     private int phoneNumber;
-    @Column(name="address", length=50, nullable=false)
+    @Column(name="address", length=250, nullable=false)
     private String address;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")

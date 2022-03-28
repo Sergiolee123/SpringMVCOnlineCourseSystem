@@ -2,17 +2,23 @@ package com.example.SpringMVC.controller;
 
 import com.example.SpringMVC.model.Comment;
 import com.example.SpringMVC.model.Lecture;
+import com.example.SpringMVC.model.Material;
 import com.example.SpringMVC.service.CommentService;
 import com.example.SpringMVC.service.LectureService;
+import com.example.SpringMVC.service.MaterialService;
 import com.example.SpringMVC.service.UserService;
+import com.example.SpringMVC.view.DownloadingView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/lecture")
@@ -21,6 +27,7 @@ public class LectureController {
     private LectureService lectureService;
     private UserService userService;
     private CommentService commentService;
+    private MaterialService materialService;
 
     @Autowired
     public void setLectureService(LectureService lectureService) {
@@ -35,6 +42,11 @@ public class LectureController {
     @Autowired
     public void setCommentService(CommentService commentService) {
         this.commentService = commentService;
+    }
+
+    @Autowired
+    public void setMaterialService(MaterialService materialService) {
+        this.materialService = materialService;
     }
 
     @GetMapping("/view/{id}")
@@ -55,6 +67,15 @@ public class LectureController {
         comment.setDate(new Date());
         commentService.saveComment(comment);
         return "redirect:/lecture/view/"+id;
+    }
+
+    @GetMapping("/material/{id}")
+    public View download(@PathVariable("id") Long id){
+        Optional<Material> material = materialService.findMaterialById(id);
+        if(material.isPresent()){
+            return new DownloadingView(material.get());
+        }
+        return new RedirectView("/", true);
     }
 
 }

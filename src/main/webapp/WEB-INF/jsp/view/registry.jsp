@@ -18,7 +18,7 @@
   <form:input type="text" path="phoneNumber"/><br>
   <form:label path="address">Address: </form:label>
   <form:input type="text" path="address"/><br>
-  <input type="submit" name="add" value="Add">
+  <input type="submit" value="Create">
 
 </form:form>
 

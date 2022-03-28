@@ -10,7 +10,7 @@ public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentID;
-    @Column(name="content", length=50, nullable=false)
+    @Column(name="content", length=250, nullable=false)
     private String content;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;

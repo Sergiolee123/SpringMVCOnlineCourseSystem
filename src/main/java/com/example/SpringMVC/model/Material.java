@@ -12,8 +12,8 @@ public class Material implements Serializable {
     private Long materialID;
     @Column(name="material_name", length=50, nullable=false)
     private String materialName;
-    @Column(name="owner", length=50, nullable=false)
-    private String owner;
+    @Column(name="owner_username", length=50, nullable=false)
+    private String owner_username;
     @Column(name="mime_content_type", length=50, nullable=false)
     private String mimeContentType;
     @Lob
@@ -50,12 +50,12 @@ public class Material implements Serializable {
         this.materialName = materialName;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getOwner_username() {
+        return owner_username;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setOwner_username(String owner_username) {
+        this.owner_username = owner_username;
     }
 
     public String getMimeContentType() {

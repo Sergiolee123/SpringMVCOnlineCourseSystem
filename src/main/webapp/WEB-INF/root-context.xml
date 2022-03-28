@@ -30,9 +30,10 @@
 
     <http auto-config="true">
 
-        <intercept-url pattern="/lecture/edit/*" access="hasRole('LECTURER')"/>
-        <intercept-url pattern="/lecture/edit" access="hasRole('LECTURER')"/>
+        <intercept-url pattern="/lecture/edit/*" access="hasAnyRole('LECTURER','ADMIN')"/>
+        <intercept-url pattern="/lecture/edit" access="hasAnyRole('LECTURER','ADMIN')"/>
         <intercept-url pattern="/lecture/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/createAccount" access="hasRole('ADMIN')"/>
 
         <remember-me
                 key="uniqueAndSecret"

@@ -5,12 +5,14 @@
 </head>
 <body>
 <c:url value="/lecture/addComment/" var="addCommentURL" />
+<c:url value="/lecture/material/" var="downloadURL" />
+<c:url value="/lecture/edit/uploadMaterial/" var="uploadURL"/>
+
 <c:choose>
     <c:when test="${empty lecture}">
         <p>There is no such lectures at this course</p>
     </c:when>
     <c:otherwise>
-        <p>Lecture id: ${lecture.lectureID}</p>
         <p>Lecture Title: ${lecture.lectureTitle}</p><br>
 
         <c:if test="${empty lecture.materials}">
@@ -23,7 +25,8 @@
             <h3>List of Materials</h3>
             <ul>
             <c:forEach var="material" items="${lecture.materials}">
-                <li>${material.materialName}<a href="${material.materialID}">download</a></li>
+                <li><a href="${downloadURL}${material.materialID}">${material.materialName}</a>
+                <p>material uploaded at <fmt:formatDate value="${material.date}" pattern="dd-MM-yyyy HH:mm"/> </p></li>
             </c:forEach>
             </ul><br>
         </c:if>
@@ -31,12 +34,15 @@
             <h3>List of Comments</h3>
             <ul>
                 <c:forEach var="comment" items="${lecture.comments}">
-                    <li><p>${comment.content}</p><br>
-                        <p>comment written by ${comment.user.fullName} at <fmt:formatDate value="${comment.date}" pattern="dd-mm-yyyy HH:mm"/> </p></li>
+                    <li><p>${comment.content}</p>
+                        <p>comment written by ${comment.user.fullName} at <fmt:formatDate value="${comment.date}" pattern="dd-MM-yyyy HH:mm"/> </p></li>
                 </c:forEach>
             </ul>
         </c:if>
-        <a href="${addCommentURL}${lecture.lectureID}">add comment</a>
+        <a href="${addCommentURL}${lecture.lectureID}">Add Comment</a>
+        <security:authorize access="hasAnyRole('ADMIN','LECTURER')">
+            <a href="${uploadURL}${lecture.lectureID}">Add Material</a>
+        </security:authorize>
     </c:otherwise>
 </c:choose>
 </body>

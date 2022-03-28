@@ -11,13 +11,13 @@ public class Poll implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pollID;
     @Column(name="option_a", length=50)
-    private String option1;
+    private String optionA;
     @Column(name="option_b", length=50)
-    private String option2;
+    private String optionB;
     @Column(name="option_c", length=50)
-    private String option3;
+    private String optionC;
     @Column(name="option_d", length=50)
-    private String option4;
+    private String optionD;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
@@ -40,36 +40,36 @@ public class Poll implements Serializable {
         this.pollID = pollID;
     }
 
-    public String getOption1() {
-        return option1;
+    public String getOptionA() {
+        return optionA;
     }
 
-    public void setOption1(String option1) {
-        this.option1 = option1;
+    public void setOptionA(String optionA) {
+        this.optionA = optionA;
     }
 
-    public String getOption2() {
-        return option2;
+    public String getOptionB() {
+        return optionB;
     }
 
-    public void setOption2(String option2) {
-        this.option2 = option2;
+    public void setOptionB(String optionB) {
+        this.optionB = optionB;
     }
 
-    public String getOption3() {
-        return option3;
+    public String getOptionC() {
+        return optionC;
     }
 
-    public void setOption3(String option3) {
-        this.option3 = option3;
+    public void setOptionC(String optionC) {
+        this.optionC = optionC;
     }
 
-    public String getOption4() {
-        return option4;
+    public String getOptionD() {
+        return optionD;
     }
 
-    public void setOption4(String option4) {
-        this.option4 = option4;
+    public void setOptionD(String optionD) {
+        this.optionD = optionD;
     }
 
     public List<PollResult> getPollResults() {

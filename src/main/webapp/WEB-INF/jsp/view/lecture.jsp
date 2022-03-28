@@ -4,7 +4,7 @@
     <title>Lecture detail</title>
 </head>
 <body>
-<c:url value="/lecture/edit/addLecture" var="LectureURL" />
+<c:url value="/lecture/addComment/" var="addCommentURL" />
 <c:choose>
     <c:when test="${empty lecture}">
         <p>There is no such lectures at this course</p>
@@ -32,11 +32,11 @@
             <ul>
                 <c:forEach var="comment" items="${lecture.comments}">
                     <li><p>${comment.content}</p><br>
-                        <p>comment written by${comment.user.fullName} at ${comment.date}</p></li>
+                        <p>comment written by ${comment.user.fullName} at <fmt:formatDate value="${comment.date}" pattern="dd-mm-yyyy HH:mm"/> </p></li>
                 </c:forEach>
             </ul>
         </c:if>
-        <a href="">add comment</a>
+        <a href="${addCommentURL}${lecture.lectureID}">add comment</a>
     </c:otherwise>
 </c:choose>
 </body>

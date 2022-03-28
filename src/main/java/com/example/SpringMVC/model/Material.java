@@ -16,8 +16,9 @@ public class Material implements Serializable {
     private String owner;
     @Column(name="mime_content_type", length=50, nullable=false)
     private String mimeContentType;
-    @Column(name="content", length=50, nullable=false)
-    private String content;
+    @Lob
+    @Column(name="contents", length=50, nullable=false)
+    private byte[] contents;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
@@ -65,12 +66,12 @@ public class Material implements Serializable {
         this.mimeContentType = mimeContentType;
     }
 
-    public String getContent() {
-        return content;
+    public byte[] getContents() {
+        return contents;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContents(byte[] contents) {
+        this.contents = contents;
     }
 
     public Date getDate() {

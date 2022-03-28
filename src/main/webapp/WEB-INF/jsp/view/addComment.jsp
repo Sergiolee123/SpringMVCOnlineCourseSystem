@@ -5,8 +5,8 @@
 <body>
 <h1>Add Lecture</h1>
 <form:form method="POST" modelAttribute="comment">
-  <form:label path="lectureTitle">Lecture Title: </form:label>
-  <form:input type="text" path="lectureTitle"/><br>
+  <form:label path="content">Comment Content: </form:label>
+  <form:textarea path="content"/><br>
   <input type="submit" name="add" value="Add">
 
 </form:form>

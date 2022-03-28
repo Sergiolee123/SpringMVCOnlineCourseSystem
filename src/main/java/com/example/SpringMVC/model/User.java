@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String role;
     @Column(name="fullName", length=20, nullable=false)
     private String fullName;
-    @Column(name="phone_number", length=8, nullable=false)
+    @Column(name="phone_number", length=20, nullable=false)
     private int phoneNumber;
     @Column(name="address", length=50, nullable=false)
     private String address;

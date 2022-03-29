@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LectureService {
@@ -21,8 +22,8 @@ public class LectureService {
         return lectureRepository.findAll();
     }
 
-    public Lecture findLectureById(Long id){
-        return lectureRepository.findById(id).orElse(null);
+    public Optional<Lecture> findLectureById(Long id){
+        return lectureRepository.findById(id);
     }
 
     @Transactional(rollbackFor = Throwable.class)

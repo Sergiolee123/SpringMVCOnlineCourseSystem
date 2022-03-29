@@ -21,7 +21,7 @@ public class Poll implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "poll")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PollResult> pollResults;
 
     public Date getDate() {

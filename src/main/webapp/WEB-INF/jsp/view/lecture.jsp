@@ -7,6 +7,7 @@
 <c:url value="/lecture/addComment/" var="addCommentURL" />
 <c:url value="/lecture/material/" var="downloadURL" />
 <c:url value="/lecture/edit/uploadMaterial/" var="uploadURL"/>
+<c:url value="/lecture/edit/deleteMaterial/" var="deleteMaterialURL"/>
 
 <c:choose>
     <c:when test="${empty lecture}">
@@ -26,7 +27,9 @@
             <ul>
             <c:forEach var="material" items="${lecture.materials}">
                 <li><a href="${downloadURL}${material.materialID}">${material.materialName}</a>
-                <p>material uploaded at <fmt:formatDate value="${material.date}" pattern="dd-MM-yyyy HH:mm"/> </p></li>
+                <p>material uploaded at <fmt:formatDate value="${material.date}" pattern="dd-MM-yyyy HH:mm"/>&nbsp;<security:authorize access="hasAnyRole('ADMIN','LECTURER')">
+                    <a href="${deleteMaterialURL}${material.materialID}">Delete Material</a>
+                </security:authorize></p></li>
             </c:forEach>
             </ul><br>
         </c:if>

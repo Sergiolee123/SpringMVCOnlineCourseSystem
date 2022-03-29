@@ -16,11 +16,11 @@ public class Lecture implements Serializable {
     @Column(name="lecture_title", length=50, nullable=false)
     private String lectureTitle;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "lecture")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Material> materials;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "lecture")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Comment> comments;
 

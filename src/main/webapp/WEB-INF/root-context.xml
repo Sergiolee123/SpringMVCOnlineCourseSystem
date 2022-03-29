@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<b:beans xmlns="http://www.springframework.org/schema/security"
-         xmlns:b="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:s="http://www.springframework.org/schema/security"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
          xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -8,36 +8,59 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd
 ">
-    <b:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <b:property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
-        <b:property name="url" value="jdbc:derby://localhost:1527/course"/>
-        <b:property name="username" value="sergio"/>
-        <b:property name="password" value="sergio"/>
-    </b:bean>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
+        <property name="url" value="jdbc:derby://localhost:1527/course"/>
+        <property name="username" value="sergio"/>
+        <property name="password" value="sergio"/>
+    </bean>
+
+    <bean id="hibernateJpaVendorAdapter"
+          class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+
+
+    <bean id="entityManagerFactory" name="entityManagerFactoryBean"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.DerbyTenFiveDialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+        <property name="packagesToScan" value="com.example.SpringMVC.model"/>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
 
     <!--Spring Security-->
-    <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service data-source-ref="dataSource"
+    <s:authentication-manager>
+        <s:authentication-provider>
+            <s:jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query=
                                        "SELECT username, password, true FROM USER_INFO
                                        WHERE username=?"
                                authorities-by-username-query=
                                        "SELECT username, user_role FROM USER_INFO
                                        WHERE username=?"/>
-        </authentication-provider>
-    </authentication-manager>
+        </s:authentication-provider>
+    </s:authentication-manager>
 
-    <http auto-config="true">
+    <s:http auto-config="true">
 
-        <intercept-url pattern="/lecture/edit/*" access="hasAnyRole('LECTURER','ADMIN')"/>
-        <intercept-url pattern="/lecture/edit" access="hasAnyRole('LECTURER','ADMIN')"/>
-        <intercept-url pattern="/lecture/**" access="isAuthenticated()"/>
-        <intercept-url pattern="/createAccount" access="hasRole('ADMIN')"/>
+        <s:intercept-url pattern="/lecture/edit/*" access="hasAnyRole('LECTURER','ADMIN')"/>
+        <s:intercept-url pattern="/lecture/edit" access="hasAnyRole('LECTURER','ADMIN')"/>
+        <s:intercept-url pattern="/lecture/**" access="isAuthenticated()"/>
+        <s:intercept-url pattern="/createAccount" access="hasRole('ADMIN')"/>
 
-        <remember-me
+        <s:remember-me
                 key="uniqueAndSecret"
                 token-validity-seconds="86400"
                 remember-me-parameter="remember-me"/>
-    </http>
-</b:beans>
+    </s:http>
+</beans>

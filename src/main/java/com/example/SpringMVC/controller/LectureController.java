@@ -1,13 +1,17 @@
 package com.example.SpringMVC.controller;
 
+import com.example.SpringMVC.exception.LectureNotFindException;
+import com.example.SpringMVC.exception.UserNotFindException;
 import com.example.SpringMVC.model.Comment;
 import com.example.SpringMVC.model.Lecture;
 import com.example.SpringMVC.model.Material;
+import com.example.SpringMVC.model.User;
 import com.example.SpringMVC.service.CommentService;
 import com.example.SpringMVC.service.LectureService;
 import com.example.SpringMVC.service.MaterialService;
 import com.example.SpringMVC.service.UserService;
 import com.example.SpringMVC.view.DownloadingView;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -50,8 +55,9 @@ public class LectureController {
     }
 
     @GetMapping("/view/{id}")
-    public String lectureView(@PathVariable Long id, ModelMap map){
-        map.addAttribute("lecture", lectureService.findLectureById(id));
+    public String lectureView(@PathVariable Long id, ModelMap map) throws LectureNotFindException {
+        Lecture lecture = lectureService.findLectureById(id).orElseThrow(LectureNotFindException::new);
+        map.addAttribute("lecture", lecture);
         return "lecture";
     }
 
@@ -61,9 +67,10 @@ public class LectureController {
     }
 
     @PostMapping("/addComment/{id}")
-    public String addComment(@PathVariable Long id, @ModelAttribute("comment") Comment comment, Principal principal){
-        comment.setLecture(lectureService.findLectureById(id));
-        comment.setUser(userService.findUserByUserName(principal.getName()));
+    public String addComment(@PathVariable Long id, @ModelAttribute("comment") Comment comment, Principal principal)
+            throws UserNotFindException, LectureNotFindException {
+        comment.setLecture(lectureService.findLectureById(id).orElseThrow(LectureNotFindException::new));
+        comment.setUser(userService.findUserByUserName(principal.getName()).orElseThrow(UserNotFindException::new));
         comment.setDate(new Date());
         commentService.saveComment(comment);
         return "redirect:/lecture/view/"+id;

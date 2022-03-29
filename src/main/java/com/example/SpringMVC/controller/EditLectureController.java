@@ -1,6 +1,6 @@
 package com.example.SpringMVC.controller;
 
-import com.example.SpringMVC.dao.LectureRepository;
+import com.example.SpringMVC.exception.LectureNotFindException;
 import com.example.SpringMVC.model.AddMaterialForm;
 import com.example.SpringMVC.model.Lecture;
 import com.example.SpringMVC.model.Material;
@@ -50,11 +50,12 @@ public class EditLectureController {
     }
 
     @PostMapping("/uploadMaterial/{id}")
-    public String addMaterial(@PathVariable Long id, AddMaterialForm addMaterialForm, Principal principal) throws IOException {
+    public String addMaterial(@PathVariable Long id, AddMaterialForm addMaterialForm, Principal principal)
+            throws IOException, LectureNotFindException {
         for(MultipartFile file: addMaterialForm.getAttachments()){
             Material material = new Material();
             material.setOwner_username(principal.getName());
-            material.setLecture(lectureService.findLectureById(id));
+            material.setLecture(lectureService.findLectureById(id).orElseThrow(LectureNotFindException::new));
             material.setMaterialName(file.getOriginalFilename());
             material.setContents(file.getBytes());
             material.setMimeContentType(file.getContentType());
@@ -62,5 +63,11 @@ public class EditLectureController {
             materialService.addMaterial(material);
         }
         return "redirect:/lecture/view/"+id;
+    }
+
+    @GetMapping("/deleteMaterial/{id}")
+    public String deleteMaterial(@PathVariable("id") Long id){
+        materialService.deleteMaterialById(id);
+        return "redirect:/";
     }
 }

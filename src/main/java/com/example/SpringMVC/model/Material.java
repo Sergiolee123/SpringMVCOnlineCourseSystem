@@ -22,7 +22,7 @@ public class Material implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 

@@ -44,7 +44,7 @@
         </c:if>
         <a href="${addCommentURL}${lecture.lectureID}">Add Comment</a>
         <security:authorize access="hasAnyRole('ADMIN','LECTURER')">
-            <a href="${uploadURL}${lecture.lectureID}">Add Material</a>
+            &nbsp;<a href="${uploadURL}${lecture.lectureID}">Add Material</a>
         </security:authorize>
     </c:otherwise>
 </c:choose>

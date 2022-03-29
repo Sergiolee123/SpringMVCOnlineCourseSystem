@@ -18,12 +18,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public Optional<User> findUserByUserName(String username){
         return userRepository.findById(username);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public User addUser(User user){
-        return userRepository.save(user);
+    public void addUser(User user){
+        userRepository.save(user);
     }
 }

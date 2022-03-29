@@ -1,6 +1,7 @@
 package com.example.SpringMVC.service;
 
 import com.example.SpringMVC.dao.LectureRepository;
+import com.example.SpringMVC.exception.LectureNotFindException;
 import com.example.SpringMVC.model.Lecture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,18 +19,26 @@ public class LectureService {
         this.lectureRepository = lectureRepository;
     }
 
+    @Transactional
     public List<Lecture> findAllLectures(){
         return lectureRepository.findAll();
     }
 
+    @Transactional
     public Optional<Lecture> findLectureById(Long id){
         return lectureRepository.findById(id);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public Lecture saveLecture(Lecture lecture){
-        return lectureRepository.save(lecture);
+    public void saveLecture(Lecture lecture){
+        lectureRepository.save(lecture);
     }
 
+    @Transactional(rollbackFor = Throwable.class)
+    public void updateLectureById(Long id, Lecture lecture) throws LectureNotFindException {
+        Lecture toUpdateLecture = lectureRepository.findById(id).orElseThrow(LectureNotFindException::new);
+        toUpdateLecture.setLectureTitle(lecture.getLectureTitle());
+        lectureRepository.save(toUpdateLecture);
+    }
 
 }

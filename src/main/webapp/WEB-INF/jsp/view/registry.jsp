@@ -9,9 +9,6 @@
   <form:input type="text" path="username"/><br>
   <form:label path="password">password: </form:label>
   <form:input type="password" path="password"/><br>
-  <form:label path="role">role: </form:label>
-  <form:radiobutton path="role" label="Lecture" value="ROLE_LECTURER"/><br>
-  <form:radiobutton path="role" label="Student" value="ROLE_STUDENT"/><br>
   <form:label path="username">Full name: </form:label>
   <form:input type="text" path="fullName"/><br>
   <form:label path="phoneNumber">Phone Number: </form:label>

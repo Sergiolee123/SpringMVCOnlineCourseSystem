@@ -55,8 +55,8 @@ public class LectureController {
     }
 
     @GetMapping("/view/{id}")
-    public String lectureView(@PathVariable Long id, ModelMap map) throws LectureNotFindException {
-        Lecture lecture = lectureService.findLectureById(id).orElseThrow(LectureNotFindException::new);
+    public String lectureView(@PathVariable Long id, ModelMap map){
+        Lecture lecture = lectureService.findLectureById(id).orElse(null);
         map.addAttribute("lecture", lecture);
         return "lecture";
     }
@@ -69,10 +69,7 @@ public class LectureController {
     @PostMapping("/addComment/{id}")
     public String addComment(@PathVariable Long id, @ModelAttribute("comment") Comment comment, Principal principal)
             throws UserNotFindException, LectureNotFindException {
-        comment.setLecture(lectureService.findLectureById(id).orElseThrow(LectureNotFindException::new));
-        comment.setUser(userService.findUserByUserName(principal.getName()).orElseThrow(UserNotFindException::new));
-        comment.setDate(new Date());
-        commentService.saveComment(comment);
+        commentService.saveComment(id, comment, principal);
         return "redirect:/lecture/view/"+id;
     }
 

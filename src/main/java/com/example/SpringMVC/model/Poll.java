@@ -10,6 +10,8 @@ public class Poll implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pollID;
+    @Column(name="question", length = 200)
+    private String question;
     @Column(name="option_a", length=50)
     private String optionA;
     @Column(name="option_b", length=50)
@@ -23,6 +25,14 @@ public class Poll implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PollResult> pollResults;
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
 
     public Date getDate() {
         return date;

@@ -14,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/lecture/edit")
@@ -44,6 +46,19 @@ public class EditLectureController {
         return "redirect:/";
     }
 
+    @GetMapping("/editLecture/{id}")
+    public ModelAndView editLectureForm(@PathVariable("id") Long id) throws LectureNotFindException {
+        return new ModelAndView("editLecture","lecture",
+                lectureService.findLectureById(id).orElseThrow(LectureNotFindException::new));
+    }
+
+    @PostMapping("/editLecture/{id}")
+    public String editLecture(@ModelAttribute("lecture") Lecture lecture, @PathVariable Long id)
+            throws LectureNotFindException {
+        lectureService.updateLectureById(id, lecture);
+        return "redirect:/";
+    }
+
     @GetMapping("/uploadMaterial/{id}")
     public ModelAndView addMaterial(@PathVariable Long id){
         return new ModelAndView("addMaterial", "material", new AddMaterialForm());
@@ -52,16 +67,7 @@ public class EditLectureController {
     @PostMapping("/uploadMaterial/{id}")
     public String addMaterial(@PathVariable Long id, AddMaterialForm addMaterialForm, Principal principal)
             throws IOException, LectureNotFindException {
-        for(MultipartFile file: addMaterialForm.getAttachments()){
-            Material material = new Material();
-            material.setOwner_username(principal.getName());
-            material.setLecture(lectureService.findLectureById(id).orElseThrow(LectureNotFindException::new));
-            material.setMaterialName(file.getOriginalFilename());
-            material.setContents(file.getBytes());
-            material.setMimeContentType(file.getContentType());
-            material.setDate(new Date());
-            materialService.addMaterial(material);
-        }
+        materialService.addMaterial(id, addMaterialForm.getAttachments(), principal);
         return "redirect:/lecture/view/"+id;
     }
 

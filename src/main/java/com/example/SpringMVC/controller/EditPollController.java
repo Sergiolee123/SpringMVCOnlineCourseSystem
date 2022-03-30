@@ -31,7 +31,6 @@ public class EditPollController {
     @PostMapping("/addPoll")
     public String addPoll(@ModelAttribute("poll") Poll poll){
         pollService.addPoll(poll);
-        poll.setDate(new Date());
         return "redirect:/";
     }
 }

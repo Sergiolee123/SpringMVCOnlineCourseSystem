@@ -20,11 +20,21 @@ public class Poll implements Serializable {
     private String optionC;
     @Column(name="option_d", length=50)
     private String optionD;
+    @Column(name="answer", length=1)
+    private String answer;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PollResult> pollResults;
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
 
     public String getQuestion() {
         return question;

@@ -11,6 +11,7 @@
         <c:url value="/lecture/view/" var="viewLectureURL" />
         <c:url value="/lecture/edit/editLecture/" var="editLectureURL"/>
         <c:url value="/poll/edit/addPoll" var="addPollURL"/>
+        <c:url value="/poll/view/" var="viewPollURL"/>
         <c:url value="/registry" var="registryURL" />
 
         <security:authorize access="hasAnyRole('LECTURER','ADMIN')">
@@ -19,10 +20,17 @@
         <security:authorize access="hasAnyRole('LECTURER','ADMIN')">
             &nbsp;<a href="${addPollURL}">Add Poll</a>
         </security:authorize>
+        <security:authorize access="isAnonymous()">
+            <a href="${loginURL}">Login</a> <br>
+            <a href="${registryURL}">Registry</a>
+        </security:authorize>
+        <security:authorize access="hasRole('ADMIN')">
+            <br><br><a href="${createAccountURL}">CreateAccount</a>
+        </security:authorize>
 
         <c:choose>
             <c:when test="${empty lectures}">
-                <p>There is no lectures at this course</p>
+                <p>There is no lectures in this course</p>
             </c:when>
             <c:otherwise>
                 <ul>
@@ -34,13 +42,19 @@
                 </ul>
             </c:otherwise>
         </c:choose>
-
-        <security:authorize access="isAnonymous()">
-            <a href="${loginURL}">Login</a> <br>
-            <a href="${registryURL}">Registry</a>
-        </security:authorize>
-        <security:authorize access="hasRole('ADMIN')">
-            <br><br><a href="${createAccountURL}">CreateAccount</a>
-        </security:authorize>
+    
+    <c:choose>
+        <c:when test="${empty polls}">
+            <p>There is no poll in this course</p>
+        </c:when>
+        <c:otherwise>
+            <ul>
+                <c:forEach var="poll" items="${polls}">
+                    <li><a href="${viewPollURL}${poll.pollID}">${poll.question}</a> </li>
+                </c:forEach>
+            </ul>
+        </c:otherwise>
+    </c:choose>
+    
     </body>
 </html>

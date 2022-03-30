@@ -2,6 +2,7 @@ package com.example.SpringMVC.controller;
 
 import com.example.SpringMVC.model.User;
 import com.example.SpringMVC.service.LectureService;
+import com.example.SpringMVC.service.PollService;
 import com.example.SpringMVC.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +16,17 @@ import org.springframework.web.servlet.ModelAndView;
 public class DefaultController {
 
     private LectureService lectureService;
-
+    private PollService pollService;
     private UserService userService;
 
     @Autowired
     public void setLectureService(LectureService lectureService) {
         this.lectureService = lectureService;
+    }
+
+    @Autowired
+    public void setPollService(PollService pollService) {
+        this.pollService = pollService;
     }
 
     @Autowired
@@ -32,6 +38,7 @@ public class DefaultController {
     public String index(ModelMap map){
         map.addAttribute("course","comps380f");
         map.addAttribute("lectures", lectureService.findAllLectures());
+        map.addAttribute("polls", pollService.findAllPolls());
         return "index";
     }
 

@@ -38,6 +38,7 @@ public class PollResultService {
     @Transactional(rollbackFor = Throwable.class)
     public void addPollResult(Long pollId, String option, Principal principal)
             throws PollNotFoundException, UserNotFindException {
+
         PollResult pollResult = new PollResult();
         pollResult.setPoll(pollRepository.findById(pollId).orElseThrow(PollNotFoundException::new));
         pollResult.setUser(userRepository.findById(principal.getName()).orElseThrow(UserNotFindException::new));

@@ -34,7 +34,7 @@ public class PollController {
     @GetMapping("/view/{id}")
     public String pollView(@PathVariable Long id, ModelMap map){
         map.addAttribute("poll", pollService.findPollById(id).orElse(null));
-        return "Poll";
+        return "poll";
     }
 
     @GetMapping("/submit/{pollId}/{option}")
@@ -42,8 +42,9 @@ public class PollController {
                              @PathVariable("option") String option, Principal principal)
             throws PollNotFoundException, UserNotFindException {
         //prevent invalid data
-        if(Pattern.matches("A-D", option)){
+        if(Pattern.matches("[A-D]", option)){
             pollResultService.addPollResult(pollId, option, principal);
+            return "redirect:/";
         }
         return "redirect:/poll/view/"+pollId;
     }

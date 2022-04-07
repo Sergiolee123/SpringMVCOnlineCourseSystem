@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "USER_INFO")
 public class User implements Serializable {
     @Id
-    @Column(name="username",length=20, nullable=false, unique = true)
+    @Column(name="username",length=20, nullable=false, unique = true, updatable = false)
     private String username;
     @Column(name="password", length=25, nullable=false)
     private String password;

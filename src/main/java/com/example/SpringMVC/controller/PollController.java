@@ -40,10 +40,10 @@ public class PollController {
     @GetMapping("/submit/{pollId}/{option}")
     public String pollSubmit(@PathVariable("pollId") Long pollId,
                              @PathVariable("option") String option, Principal principal)
-            throws PollNotFoundException, UserNotFindException {
+            throws PollNotFoundException, UserNotFindException{
         //prevent invalid data
         if(Pattern.matches("[A-D]", option)){
-            pollResultService.addPollResult(pollId, option, principal);
+            pollResultService.updatePollResult(pollId, option, principal);
             return "redirect:/";
         }
         return "redirect:/poll/view/"+pollId;

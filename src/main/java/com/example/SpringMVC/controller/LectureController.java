@@ -55,8 +55,8 @@ public class LectureController {
     }
 
     @GetMapping("/view/{id}")
-    public String lectureView(@PathVariable Long id, ModelMap map){
-        Lecture lecture = lectureService.findLectureById(id).orElse(null);
+    public String lectureView(@PathVariable Long id, ModelMap map) throws LectureNotFindException {
+        Lecture lecture = lectureService.findLectureByIdFetchAll(id);
         map.addAttribute("lecture", lecture);
         return "lecture";
     }

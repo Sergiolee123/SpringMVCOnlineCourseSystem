@@ -36,14 +36,19 @@ public class PollResultService {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void addPollResult(Long pollId, String option, Principal principal)
-            throws PollNotFoundException, UserNotFindException {
-
-        PollResult pollResult = new PollResult();
-        pollResult.setPoll(pollRepository.findById(pollId).orElseThrow(PollNotFoundException::new));
-        pollResult.setUser(userRepository.findById(principal.getName()).orElseThrow(UserNotFindException::new));
-        pollResult.setOption(option);
-        pollResult.setDate(new Date());
-        pollResultRepository.save(pollResult);
+    public void updatePollResult(Long pollId, String option, Principal principal)
+            throws PollNotFoundException, UserNotFindException{
+        PollResult oldPollResult = pollResultRepository.existByUser(principal.getName(), pollId);
+        PollResult newPollResult;
+        if(oldPollResult == null){
+            newPollResult = new PollResult();
+        }else {
+            newPollResult = oldPollResult;
+        }
+        newPollResult.setPoll(pollRepository.findById(pollId).orElseThrow(PollNotFoundException::new));
+        newPollResult.setUser(userRepository.findById(principal.getName()).orElseThrow(UserNotFindException::new));
+        newPollResult.setOption(option);
+        newPollResult.setDate(new Date());
+        pollResultRepository.save(newPollResult);
     }
 }

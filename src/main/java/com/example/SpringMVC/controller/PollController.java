@@ -32,8 +32,10 @@ public class PollController {
     }
 
     @GetMapping("/view/{id}")
-    public String pollView(@PathVariable Long id, ModelMap map){
+    public String pollView(@PathVariable Long id, ModelMap map, Principal principal){
         map.addAttribute("poll", pollService.findPollById(id).orElse(null));
+        map.addAttribute("pollResult",
+                pollResultService.findPollResultByUserIdAndPollId(id, principal).orElse(null));
         return "poll";
     }
 

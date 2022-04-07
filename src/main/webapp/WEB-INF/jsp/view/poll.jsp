@@ -17,6 +17,9 @@
         <p><a href="${submitURL+="D"}">D: ${poll.optionD}</a></p>
     </c:otherwise>
 </c:choose>
+    <c:if test="${not empty pollResult}">
+        <br><p>Your latest submission is ${pollResult.option} at ${pollResult.date}</p>
+    </c:if>
 
 </body>
 </html>

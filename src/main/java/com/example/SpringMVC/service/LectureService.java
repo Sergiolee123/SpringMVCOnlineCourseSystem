@@ -2,7 +2,7 @@ package com.example.SpringMVC.service;
 
 import com.example.SpringMVC.dao.LectureRepository;
 import com.example.SpringMVC.exception.LectureNotFindException;
-import com.example.SpringMVC.model.Comment;
+import com.example.SpringMVC.model.LectureComment;
 import com.example.SpringMVC.model.Lecture;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +30,19 @@ public class LectureService {
     public Optional<Lecture> findLectureById(Long id){
         return lectureRepository.findById(id);
     }
+
     @Transactional
-    public Lecture findLectureByIdFetchAll(Long id) throws LectureNotFindException {
-        //Fetch all the relations of this lecture and avoid n+1 queries
-        Lecture lecture = lectureRepository.findById(id).orElseThrow(LectureNotFindException::new);
+    public Lecture findLectureByIdFetchAll(Long id) {
+        //Fetch all the relations of this lecture
+        Optional<Lecture> optionalLecture = lectureRepository.findById(id);
+        if(!optionalLecture.isPresent()){
+            return null;
+        }
+        Lecture lecture = optionalLecture.get();
         Hibernate.initialize(lecture.getMaterials());
         Hibernate.initialize(lecture.getComments());
-        for(Comment comment: lecture.getComments()){
-            Hibernate.initialize(comment.getUser());
+        for(LectureComment lectureComment : lecture.getComments()){
+            Hibernate.initialize(lectureComment.getUser());
         }
         return lecture;
     }

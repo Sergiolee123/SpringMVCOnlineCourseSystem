@@ -28,6 +28,17 @@ public class Poll implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PollResult> pollResults;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "poll", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PollComment> pollComments;
+
+    public List<PollComment> getPollComments() {
+        return pollComments;
+    }
+
+    public void setPollComments(List<PollComment> pollComments) {
+        this.pollComments = pollComments;
+    }
+
     public String getAnswer() {
         return answer;
     }

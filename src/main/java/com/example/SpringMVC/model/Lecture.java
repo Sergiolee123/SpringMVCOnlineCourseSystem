@@ -22,7 +22,7 @@ public class Lecture implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "lecture", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Comment> comments;
+    private List<LectureComment> lectureComments;
 
 
     public List<Material> getMaterials() {
@@ -33,12 +33,12 @@ public class Lecture implements Serializable {
         this.materials = materialList;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public List<LectureComment> getComments() {
+        return lectureComments;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setComments(List<LectureComment> lectureComments) {
+        this.lectureComments = lectureComments;
     }
 
     public Long getLectureID() {

@@ -8,13 +8,18 @@
 <c:url value="/lecture/material/" var="downloadURL" />
 <c:url value="/lecture/edit/uploadMaterial/" var="uploadURL"/>
 <c:url value="/lecture/edit/deleteMaterial/" var="deleteMaterialURL"/>
+<c:url value="/lecture/edit/editLecture/" var="editLectureURL"/>
 
 <c:choose>
     <c:when test="${empty lecture}">
         <p>There is no such lectures at this course</p>
     </c:when>
     <c:otherwise>
-        <p>Lecture Title: ${lecture.lectureTitle}</p><br>
+        <p>Lecture Title: ${lecture.lectureTitle}</p>
+        <security:authorize access="hasAnyRole('ADMIN','LECTURER')">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${editLectureURL}${lecture.lectureID}">Edit Title</a>
+        </security:authorize>
+        <br>
 
         <c:if test="${empty lecture.materials}">
             <p>There are no material for this lecture</p><br>
@@ -36,9 +41,9 @@
         <c:if test="${not empty lecture.comments}">
             <h3>List of Comments</h3>
             <ul>
-                <c:forEach var="comment" items="${lecture.comments}">
-                    <li><p>${comment.content}</p>
-                        <p>comment written by ${comment.user.fullName} at <fmt:formatDate value="${comment.date}" pattern="dd-MM-yyyy HH:mm"/> </p></li>
+                <c:forEach var="comments" items="${lecture.comments}">
+                    <li><p>${comments.content}</p>
+                        <p>lectureComment written by ${comments.user.fullName} at <fmt:formatDate value="${comments.date}" pattern="dd-MM-yyyy HH:mm"/> </p></li>
                 </c:forEach>
             </ul>
         </c:if>

@@ -9,7 +9,6 @@
         <c:url value="/admin/createAccount" var="createAccountURL" />
         <c:url value="/lecture/edit/addLecture" var="addLectureURL" />
         <c:url value="/lecture/view/" var="viewLectureURL" />
-        <c:url value="/lecture/edit/editLecture/" var="editLectureURL"/>
         <c:url value="/poll/edit/addPoll" var="addPollURL"/>
         <c:url value="/poll/view/" var="viewPollURL"/>
         <c:url value="/registry" var="registryURL" />
@@ -35,9 +34,7 @@
             <c:otherwise>
                 <ul>
                     <c:forEach var="lecture" items="${lectures}">
-                        <li><a href="${viewLectureURL}${lecture.lectureID}">${lecture.lectureTitle}</a>&nbsp;<security:authorize access="hasAnyRole('ADMIN','LECTURER')">
-                            <a href="${editLectureURL}${lecture.lectureID}">Edit Title</a>
-                        </security:authorize></li>
+                        <li><a href="${viewLectureURL}${lecture.lectureID}">${lecture.lectureTitle}</a>&nbsp</li>
                     </c:forEach>
                 </ul>
             </c:otherwise>

@@ -1,15 +1,18 @@
 package com.example.SpringMVC.controller;
 
+import com.example.SpringMVC.exception.LectureNotFindException;
 import com.example.SpringMVC.exception.PollNotFoundException;
 import com.example.SpringMVC.exception.UserNotFindException;
+import com.example.SpringMVC.model.LectureComment;
+import com.example.SpringMVC.model.PollComment;
+import com.example.SpringMVC.service.PollCommentService;
 import com.example.SpringMVC.service.PollResultService;
 import com.example.SpringMVC.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.util.regex.Pattern;
@@ -20,6 +23,7 @@ public class PollController {
 
     private PollService pollService;
     private PollResultService pollResultService;
+    private PollCommentService pollCommentService;
 
     @Autowired
     public void setPollService(PollService pollService) {
@@ -31,9 +35,14 @@ public class PollController {
         this.pollResultService = pollResultService;
     }
 
+    @Autowired
+    public void setPollCommentService(PollCommentService pollCommentService) {
+        this.pollCommentService = pollCommentService;
+    }
+
     @GetMapping("/view/{id}")
     public String pollView(@PathVariable Long id, ModelMap map, Principal principal){
-        map.addAttribute("poll", pollService.findPollById(id).orElse(null));
+        map.addAttribute("poll", pollService.findPollByIdFetchAll(id));
         map.addAttribute("pollResult",
                 pollResultService.findPollResultByUserIdAndPollId(id, principal).orElse(null));
         return "poll";
@@ -49,5 +58,18 @@ public class PollController {
             return "redirect:/";
         }
         return "redirect:/poll/view/"+pollId;
+    }
+
+    @GetMapping("/addComment/{id}")
+    public ModelAndView addCommentForm(@PathVariable String id){
+        return new ModelAndView("addPollComment", "pollComment", new PollComment());
+    }
+
+    @PostMapping("/addComment/{id}")
+    public String addComment(@PathVariable Long id, @ModelAttribute("pollComment") PollComment pollComment
+            , Principal principal)
+            throws UserNotFindException, PollNotFoundException {
+        pollCommentService.saveComment(id, pollComment, principal);
+        return "redirect:/poll/view/"+id;
     }
 }

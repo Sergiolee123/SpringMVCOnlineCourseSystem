@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "USER_INFO")
 public class User implements Serializable {
+
     @Id
     @Column(name="username",length=20, nullable=false, unique = true, updatable = false)
     private String username;
@@ -27,12 +28,11 @@ public class User implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<Comment> comments;
+    private List<LectureComment> lectureComments;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<PollResult> pollResults;
-
 
     public String getUsername() {
         return username;
@@ -82,12 +82,12 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public List<LectureComment> getComments() {
+        return lectureComments;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setComments(List<LectureComment> lectureComments) {
+        this.lectureComments = lectureComments;
     }
 
     public List<PollResult> getPollResults() {
@@ -97,4 +97,5 @@ public class User implements Serializable {
     public void setPollResults(List<PollResult> pollResults) {
         this.pollResults = pollResults;
     }
+
 }

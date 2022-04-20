@@ -6,24 +6,24 @@
     <body>
         <h1>Course Name: ${course}</h1>
         <c:url value="/login" var="loginURL" />
-        <c:url value="/admin/createAccount" var="createAccountURL" />
+        <c:url value="/lecturer/createAccount" var="createAccountURL" />
         <c:url value="/lecture/edit/addLecture" var="addLectureURL" />
         <c:url value="/lecture/view/" var="viewLectureURL" />
         <c:url value="/poll/edit/addPoll" var="addPollURL"/>
         <c:url value="/poll/view/" var="viewPollURL"/>
         <c:url value="/registry" var="registryURL" />
 
-        <security:authorize access="hasAnyRole('LECTURER','ADMIN')">
+        <security:authorize access="hasAnyRole('LECTURER')">
             <a href="${addLectureURL}">Add Lecture</a>
         </security:authorize>
-        <security:authorize access="hasAnyRole('LECTURER','ADMIN')">
+        <security:authorize access="hasAnyRole('LECTURER')">
             &nbsp;<a href="${addPollURL}">Add Poll</a>
         </security:authorize>
         <security:authorize access="isAnonymous()">
             <a href="${loginURL}">Login</a> <br>
             <a href="${registryURL}">Registry</a>
         </security:authorize>
-        <security:authorize access="hasRole('ADMIN')">
+        <security:authorize access="hasRole('LECTURER')">
             <br><br><a href="${createAccountURL}">CreateAccount</a>
         </security:authorize>
 

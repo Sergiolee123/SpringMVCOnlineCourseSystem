@@ -44,6 +44,8 @@ public class PollResultService {
     @Transactional(rollbackFor = Throwable.class)
     public void updatePollResult(Long pollId, String option, Principal principal)
             throws PollNotFoundException, UserNotFindException{
+
+
         Optional<PollResult> oldPollResult = pollResultRepository.existByUser(principal.getName(), pollId);
         PollResult newPollResult = oldPollResult.orElse(new PollResult());
         newPollResult.setPoll(pollRepository.findById(pollId).orElseThrow(PollNotFoundException::new));

@@ -63,6 +63,7 @@ public class LectureController {
         return "redirect:/lecture/view/"+id;
     }
 
+
     @GetMapping("/material/{id}")
     public View download(@PathVariable("id") Long id){
         Optional<Material> material = materialService.findMaterialById(id);

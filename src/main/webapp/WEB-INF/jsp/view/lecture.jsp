@@ -16,7 +16,7 @@
     </c:when>
     <c:otherwise>
         <p>Lecture Title: ${lecture.lectureTitle}</p>
-        <security:authorize access="hasAnyRole('ADMIN','LECTURER')">
+        <security:authorize access="hasAnyRole('LECTURER')">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="${editLectureURL}${lecture.lectureID}">Edit Title</a>
         </security:authorize>
         <br>
@@ -32,7 +32,7 @@
             <ul>
             <c:forEach var="material" items="${lecture.materials}">
                 <li><a href="${downloadURL}${material.materialID}">${material.materialName}</a>
-                <p>material uploaded at <fmt:formatDate value="${material.date}" pattern="dd-MM-yyyy HH:mm"/>&nbsp;<security:authorize access="hasAnyRole('ADMIN','LECTURER')">
+                <p>material uploaded at <fmt:formatDate value="${material.date}" pattern="dd-MM-yyyy HH:mm"/>&nbsp;<security:authorize access="hasAnyRole('LECTURER')">
                     <a href="${deleteMaterialURL}${material.materialID}">Delete Material</a>
                 </security:authorize></p></li>
             </c:forEach>
@@ -48,7 +48,7 @@
             </ul>
         </c:if>
         <a href="${addCommentURL}${lecture.lectureID}">Add Comment</a>
-        <security:authorize access="hasAnyRole('ADMIN','LECTURER')">
+        <security:authorize access="hasAnyRole('LECTURER')">
             &nbsp;<a href="${uploadURL}${lecture.lectureID}">Add Material</a>
         </security:authorize>
     </c:otherwise>
